@@ -10,20 +10,15 @@ namespace MaduGlebTARpv23
     {
         static void Main(string[] args) 
         {
-            Point p1 = new Point();
-            p1.x = 1;
-            p1.y = 3;
-            p1.sym = '*';
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Point p1 = new Point(1,3, '*');
             p1.Draw();
            
  //int x1 = 1; // вид данных int только целые числа
  // вид данных char только буквы
 
 
-            Point p2 = new Point();
-            p2.x = 4;
-            p2.y = 5;
-            p2.sym = '#';
+            Point p2 = new Point(4,5,'#');
             p2.Draw();
 
            
