@@ -1,3 +1,6 @@
+
+﻿using System;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +11,9 @@ namespace MaduGlebTARpv23
 {
     internal class HorizontalLine : Figure
     {
+
         List<Point> pList;
+
 
         public HorizontalLine(int xLeft, int xRight, int y, char sym)
         {
@@ -20,12 +25,8 @@ namespace MaduGlebTARpv23
             }
         }
 
-        public void Draw()
-        {
-            foreach (Point p in pList)
-            {
-                p.Draw();
-            }
-        }
     }
 }
+
+
+
