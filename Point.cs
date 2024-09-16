@@ -9,17 +9,17 @@ namespace MaduGlebTARpv23
 {
     internal class Point
     {
-        // Koordinaadid ja sümbol, mis tähistab punkti
+        // Koordinaadid ja sÃ¼mbol, mis tÃ¤histab punkti
         public int x;
         public int y;
         public char sym;
 
-        // Tühi konstruktor, mida saab kasutada vajadusel ilma väärtuste määramiseta
+        // TÃ¼hi konstruktor, mida saab kasutada vajadusel ilma vÃ¤Ã¤rtuste mÃ¤Ã¤ramiseta
         public Point()
         {
         }
 
-        // Konstruktor, mis määrab punkti koordinaadid ja sümboli
+        // Konstruktor, mis mÃ¤Ã¤rab punkti koordinaadid ja sÃ¼mboli
         public Point(int x, int y, char sym)
         {
             this.x = x;
@@ -27,7 +27,7 @@ namespace MaduGlebTARpv23
             this.sym = sym;
         }
 
-        // Kopeeriv konstruktor, mis loob uue punkti teise punkti põhjal
+        // Kopeeriv konstruktor, mis loob uue punkti teise punkti pÃµhjal
         public Point(Point p)
         {
             x = p.x;
@@ -48,7 +48,7 @@ namespace MaduGlebTARpv23
             }
             else if (direction == Direction.UP)
             {
-                y = y - offset; // Liigub üles
+                y = y - offset; // Liigub Ã¼les
             }
             else if (direction == Direction.DOWN)
             {
@@ -56,7 +56,7 @@ namespace MaduGlebTARpv23
             }
         }
 
-        // Kontrollib, kas kaks punkti kattuvad (tabavad üksteist)
+        // Kontrollib, kas kaks punkti kattuvad (tabavad Ã¼ksteist)
         public bool IsHit(Point p)
         {
             return p.x == this.x && p.y == this.y;
@@ -65,18 +65,18 @@ namespace MaduGlebTARpv23
         // Joonistab punkti konsoolile
         public void Draw()
         {
-            Console.SetCursorPosition(x, y); // Määrab kursori positsiooni
-            Console.Write(sym); // Joonistab punkti sümboli
+            Console.SetCursorPosition(x, y); // MÃ¤Ã¤rab kursori positsiooni
+            Console.Write(sym); // Joonistab punkti sÃ¼mboli
         }
 
-        // Kustutab punkti konsoolilt, asendades selle tühikuga
+        // Kustutab punkti konsoolilt, asendades selle tÃ¼hikuga
         public void Clear()
         {
-            sym = ' '; // Muudab sümboli tühikuks
+            sym = ' '; // Muudab sÃ¼mboli tÃ¼hikuks
             Draw(); // Joonistab punkti uuesti, et see kaoks ekraanilt
         }
 
-        // Ülekirjutatud meetod ToString, mis tagastab punkti koordinaadid ja sümboli
+        // Ãœlekirjutatud meetod ToString, mis tagastab punkti koordinaadid ja sÃ¼mboli
         public override string ToString()
         {
             return x + ", " + y + ", " + sym;
