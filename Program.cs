@@ -1,11 +1,5 @@
-﻿using MaduGlebTARpv23;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+using System.Threading;
 
 namespace MaduGlebTARpv23
 {
@@ -13,57 +7,73 @@ namespace MaduGlebTARpv23
     {
         static void Main(string[] args)
         {
-            // Määrab konsooli akna suuruse
-            Console.SetWindowSize(80, 25);
+            Console.SetWindowSize(110, 25);
 
-            // Loob mänguvälja seinad ja joonistab need ekraanile
+            bool playAgain = true; // Флаг для перезапуска игры
+
+            while (playAgain)
+            {
+                playAgain = StartGame(); // Запуск игры, возвращает true для перезапуска
+            }
+
+            Console.Clear(); // Очищаем экран перед завершением программы
+            Console.SetCursorPosition(30, 12);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Спасибо за игру!");
+            Console.ResetColor();
+            Console.ReadLine();
+        }
+
+        // Основная логика игры
+        static bool StartGame()
+        {
             Walls walls = new Walls(80, 25);
             walls.Draw();
 
-            // Loob mao alguspunkti ja suuna ning joonistab mao
             Point p = new Point(4, 5, '*');
             Snake snake = new Snake(p, 4, Direction.RIGHT);
             snake.Draw();
 
-            // Loob toidu mänguväljale ja joonistab selle
             FoodCreator foodCreator = new FoodCreator(80, 25, '#');
             Point food = foodCreator.CreateFood();
             food.Draw();
 
-            // Mängu peamine tsükkel
+            ScoreCounter scoreCounter = new ScoreCounter();
+
             while (true)
             {
-                // Kui madu põrkab seina või oma sabaga, mäng lõpeb
                 if (walls.IsHit(snake) || snake.IsHitTail())
                 {
-                    break;
+                    break; // Игра окончена, выходим из цикла
                 }
 
-                // Kui madu sööb toidu, luuakse uus toit
                 if (snake.Eat(food))
                 {
                     food = foodCreator.CreateFood();
                     food.Draw();
+                    scoreCounter.IncreaseScore(); // Увеличиваем счёт
                 }
                 else
                 {
-                    // Kui madu ei söö toitu, liigub edasi
                     snake.Move();
                 }
 
-                // Paus mängu tsüklis
+                scoreCounter.DisplayScore(); // Отображаем счёт
                 Thread.Sleep(100);
 
-                // Kontrollib, kas klahvivajutus on saadaval, ja muudab suunda
                 if (Console.KeyAvailable)
                 {
                     ConsoleKeyInfo key = Console.ReadKey();
-                    snake.HandleKey(key.Key); // Mao liikumise juhtimine klaviatuuriga
+                    snake.HandleKey(key.Key);
                 }
             }
 
-            // Ootab, et kasutaja vajutaks Enter, et programm sulgeda
-            Console.ReadLine();
+            // Когда игра окончена, отображаем экран завершения
+            GameOverScreen gameOverScreen = new GameOverScreen();
+            gameOverScreen.DisplayGameOver(scoreCounter.GetScore());
+
+            // Обрабатываем ввод: перезапуск или выход
+            return gameOverScreen.HandleInput();
         }
     }
 }
