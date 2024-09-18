@@ -9,23 +9,37 @@ namespace MaduGlebTARpv23
         {
             Console.SetWindowSize(110, 25);
 
-            bool playAgain = true; // Флаг для перезапуска игры
+            ScoreDatabase scoreDatabase = new ScoreDatabase();
+            bool playAgain = true;
 
             while (playAgain)
             {
-                playAgain = StartGame(); // Запуск игры, возвращает true для перезапуска
+                // Отображаем меню
+                MenuScreen menuScreen = new MenuScreen();
+                string playerName = menuScreen.DisplayMenu();
+
+                if (!string.IsNullOrEmpty(playerName))
+                {
+                    // Запускаем игру
+                    playAgain = StartGame(playerName, scoreDatabase);
+                }
+                else
+                {
+                    playAgain = false;
+                }
             }
 
-            Console.Clear(); // Очищаем экран перед завершением программы
+            // Выводим самый высокий рекорд
+            var highScore = scoreDatabase.GetHighScore();
+            Console.Clear();
             Console.SetCursorPosition(30, 12);
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Спасибо за игру!");
+            Console.WriteLine($"Наивысший рекорд: {highScore.playerName} с {highScore.score} очками.");
             Console.ResetColor();
             Console.ReadLine();
         }
 
-        // Основная логика игры
-        static bool StartGame()
+        static bool StartGame(string playerName, ScoreDatabase scoreDatabase)
         {
             Walls walls = new Walls(80, 25);
             walls.Draw();
@@ -44,21 +58,21 @@ namespace MaduGlebTARpv23
             {
                 if (walls.IsHit(snake) || snake.IsHitTail())
                 {
-                    break; // Игра окончена, выходим из цикла
+                    break;
                 }
 
                 if (snake.Eat(food))
                 {
                     food = foodCreator.CreateFood();
                     food.Draw();
-                    scoreCounter.IncreaseScore(); // Увеличиваем счёт
+                    scoreCounter.IncreaseScore();
                 }
                 else
                 {
                     snake.Move();
                 }
 
-                scoreCounter.DisplayScore(); // Отображаем счёт
+                scoreCounter.DisplayScore();
                 Thread.Sleep(100);
 
                 if (Console.KeyAvailable)
@@ -68,11 +82,12 @@ namespace MaduGlebTARpv23
                 }
             }
 
-            // Когда игра окончена, отображаем экран завершения
             GameOverScreen gameOverScreen = new GameOverScreen();
             gameOverScreen.DisplayGameOver(scoreCounter.GetScore());
 
-            // Обрабатываем ввод: перезапуск или выход
+            // Сохранение результата в базу данных
+            scoreDatabase.SaveScore(playerName, scoreCounter.GetScore());
+
             return gameOverScreen.HandleInput();
         }
     }

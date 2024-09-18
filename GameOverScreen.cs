@@ -36,6 +36,7 @@ namespace MaduGlebTARpv23
                 var key = Console.ReadKey(true).Key;
                 if (key == ConsoleKey.R)
                 {
+                    Console.Clear(); // Очищаем экран при перезапуске
                     return true; // Перезапуск
                 }
                 else if (key == ConsoleKey.Q)
