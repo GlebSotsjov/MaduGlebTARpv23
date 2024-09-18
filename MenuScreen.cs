@@ -11,7 +11,7 @@ namespace MaduGlebTARpv23
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("╔════════════════════════════╗");
             Console.SetCursorPosition(30, 11);
-            Console.WriteLine("║         ЗМЕЙКА            ║");
+            Console.WriteLine("║            ЗМЕЙКА          ║");
             Console.SetCursorPosition(30, 12);
             Console.WriteLine("╚════════════════════════════╝");
 
@@ -25,6 +25,10 @@ namespace MaduGlebTARpv23
 
             // Считывание никнейма игрока
             string playerName = Console.ReadLine();
+
+            // Очищаем экран после того, как игрок ввел имя и нажал Enter
+            Console.Clear();
+
             return playerName;
         }
     }
